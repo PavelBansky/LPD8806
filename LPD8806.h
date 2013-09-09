@@ -1,3 +1,6 @@
+#ifndef LPD8806_h
+#define LPD8806_h
+
 #if (ARDUINO >= 100)
  #include <Arduino.h>
 #else
@@ -19,13 +22,16 @@ class LPD8806 {
     setPixelColor(uint16_t n, uint32_t c),
     updatePins(uint8_t dpin, uint8_t cpin), // Change pins, configurable
     updatePins(void),                       // Change pins, hardware SPI
-    updateLength(uint16_t n);               // Change strip length
+    updateLength(uint16_t n),               // Change strip length
+    drawThread(uint32_t shortColor, uint32_t longColor),
+    rotateRight(void),
+    rotateLeft(void),
+    solidColor(uint32_t colora);
   uint16_t
     numPixels(void);
   uint32_t
     Color(byte, byte, byte),
     getPixelColor(uint16_t n);
-
  private:
 
   uint16_t
@@ -44,3 +50,5 @@ class LPD8806 {
     hardwareSPI, // If 'true', using hardware SPI
     begun;       // If 'true', begin() method was previously invoked
 };
+
+#endif

@@ -294,3 +294,44 @@ uint32_t LPD8806::getPixelColor(uint16_t n) {
 
   return 0; // Pixel # is out of bounds
 }
+
+void LPD8806::drawThread(uint32_t shortColor, uint32_t longColor) {
+ 	// draw the tank thread pattern
+	for(int j=0; j < numPixels(); j += 15 ) {
+		for(int redi = 0; redi < 5; redi++) {
+			setPixelColor(j+redi, shortColor);
+		}
+		for(int gri = 0; gri < 10; gri++) {
+			setPixelColor(j+gri+5, longColor);
+		}
+	}
+
+}
+
+// Rotate contect of the strip forward
+void LPD8806::rotateRight(void) {
+    // get color of last pixel
+    uint32_t lastColor = getPixelColor(numPixels() - 1);
+    for(int i=numPixels()-1; i > 0; i--)
+    {
+      setPixelColor(i, getPixelColor(i-1));
+    }
+    setPixelColor(0, lastColor);
+}
+
+void LPD8806::rotateLeft(void) {
+    // get color of the first pixel
+    uint32_t lastColor = getPixelColor(0);
+    for(int i=0; i < numPixels(); i++)
+    {
+      setPixelColor(i, getPixelColor(i+1));
+    }    
+    setPixelColor(numPixels() - 1, lastColor); 
+}
+
+void LPD8806::solidColor(uint32_t colora)
+{
+	for(int j=0; j < numPixels(); j++ ) {
+		setPixelColor(j, colora);
+	}
+} 
